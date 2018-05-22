@@ -35,6 +35,9 @@ func main(){
 	}
 
 	fmt.Print("Checking out SQS Queue")
-	sqs.Consume(queueURL)
+	position, _ := sqs.Consume(queueURL)
+	fmt.Sprintf("Position found %s", position)
+
+
 }
 
