@@ -6,10 +6,12 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"fmt"
 	"os"
+	"github.com/pedrolopesme/iss-tracker/iss"
+	"encoding/json"
 )
 
 // Connects to ISS SQS Queue and returns al coordinates stored there.
-func Consume(queueUrl string) (message string, err error) {
+func Consume(queueUrl string) (position iss.IssPosition, err error) {
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
 	}))
@@ -35,7 +37,8 @@ func Consume(queueUrl string) (message string, err error) {
 	fmt.Printf("Received %d messages.\n", len(result.Messages))
 	if len(result.Messages) > 0 {
 		for _, message := range result.Messages {
-			fmt.Println(message)
+			err = json.Unmarshal([]byte(*message.Body), &position)
+			return
 		}
 	}
 
