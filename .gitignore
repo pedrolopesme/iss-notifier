@@ -35,7 +35,6 @@ dist/*
 out/
 
 # Ignoring vendor
-vendor/*
 _vendor*
 
 # OS related files
